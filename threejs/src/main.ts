@@ -109,6 +109,29 @@ sphereMesh.receiveShadow = true;
 
 scene.add(sphereMesh);
 
+const numPoints = 1000;
+const positions = new Float32Array(numPoints * 3);
+
+for (let i = 0; i < numPoints; i++) {
+  const x = (Math.random() - 0.5) * 1;
+  const y = (Math.random() - 0.5) * 1;
+  const z = (Math.random() - 0.5) * 1;
+
+  positions[i * 3] = x;
+  positions[i * 3 + 1] = y;
+  positions[i * 3 + 2] = z;
+}
+
+// gpu 렌더링 효율화
+const bufferGeometry = new THREE.BufferGeometry();
+bufferGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+const pointsMaterial = new THREE.PointsMaterial({ color: 0xffff00, size: 0.05 });
+
+const point = new THREE.Points(bufferGeometry, pointsMaterial);
+point.position.set(3, 1, -5);
+scene.add(point);
+
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.update();
 
